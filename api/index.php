@@ -4,23 +4,31 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+try {
+    $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$app->useStoragePath('/tmp');
+    $app->useStoragePath('/tmp');
 
-// Ensure the necessary storage directories exist
-$directories = [
-    '/tmp/framework/cache/data',
-    '/tmp/framework/sessions',
-    '/tmp/framework/testing',
-    '/tmp/framework/views',
-    '/tmp/logs'
-];
+    // Ensure the necessary storage directories exist
+    $directories = [
+        '/tmp/framework/cache/data',
+        '/tmp/framework/sessions',
+        '/tmp/framework/testing',
+        '/tmp/framework/views',
+        '/tmp/logs'
+    ];
 
-foreach ($directories as $directory) {
-    if (!is_dir($directory)) {
-        mkdir($directory, 0755, true);
+    foreach ($directories as $directory) {
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
     }
-}
 
-$app->handleRequest(Illuminate\Http\Request::capture());
+    $app->handleRequest(Illuminate\Http\Request::capture());
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo "<h1>500 Internal Server Error</h1>";
+    echo "<p><strong>Message:</strong> " . htmlspecialchars($e->getMessage()) . "</p>";
+    echo "<p><strong>File:</strong> " . $e->getFile() . ":" . $e->getLine() . "</p>";
+    echo "<h3>Stack Trace:</h3><pre>" . $e->getTraceAsString() . "</pre>";
+}
