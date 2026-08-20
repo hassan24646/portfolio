@@ -744,7 +744,8 @@
 
           <div class="col-lg-7">
             <div class="glass-card p-4 p-md-5">
-              <form action="forms/contact.php" method="post" class="php-email-form modern-form">
+              <form action="/contact" method="post" class="php-email-form modern-form">
+                @csrf
                 <div class="row gy-4">
 
                   <div class="col-md-6">
