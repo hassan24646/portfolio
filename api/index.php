@@ -17,6 +17,15 @@ $envVars = [
     'APP_MAINTENANCE_DRIVER' => 'file',
 ];
 
+// If no database connection is set in Vercel environment, fall back to SQLite in /tmp
+if (empty($_ENV['DB_CONNECTION']) && empty(getenv('DB_CONNECTION'))) {
+    $envVars['DB_CONNECTION'] = 'sqlite';
+    $envVars['DB_DATABASE'] = '/tmp/database.sqlite';
+    if (!file_exists('/tmp/database.sqlite')) {
+        touch('/tmp/database.sqlite');
+    }
+}
+
 foreach ($envVars as $key => $value) {
     $_ENV[$key] = $value;
     $_SERVER[$key] = $value;
