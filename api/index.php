@@ -14,6 +14,7 @@ $envVars = [
     'CACHE_DRIVER' => 'array',
     'SESSION_DRIVER' => 'cookie',
     'LOG_CHANNEL' => 'stderr',
+    'APP_MAINTENANCE_DRIVER' => 'file',
 ];
 
 foreach ($envVars as $key => $value) {
