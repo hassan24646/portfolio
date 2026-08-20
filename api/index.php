@@ -4,6 +4,11 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$_ENV['APP_DEBUG'] = true;
+$_SERVER['APP_DEBUG'] = true;
+putenv('APP_DEBUG=true');
+
+
 try {
     $app = require_once __DIR__.'/../bootstrap/app.php';
 
