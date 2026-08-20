@@ -20,3 +20,13 @@ Route::get('/migrate', function () {
         return 'Migration error: ' . $e->getMessage();
     }
 });
+
+// Admin route to view contact messages securely
+Route::get('/messages', function (\Illuminate\Http\Request $request) {
+    if ($request->query('key') !== 'hassan123') {
+        abort(403, 'Unauthorized access.');
+    }
+    $messages = \App\Models\ContactMessage::latest()->get();
+    return view('messages', compact('messages'));
+});
+
